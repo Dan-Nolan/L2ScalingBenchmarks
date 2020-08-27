@@ -1,4 +1,5 @@
-const MerkleTree = require('../helpers/MerkleTree');
+const logCosts = require('./logCosts');
+const MerkleTree = require('./MerkleTree');
 
 async function benchmark({ ethers }, numAccounts) {
     const { utils: { solidityPack, solidityKeccak256 }} = ethers;
@@ -24,12 +25,7 @@ async function benchmark({ ethers }, numAccounts) {
     const gas2 = receipt2.cumulativeGasUsed;
     const gas3 = receipt3.cumulativeGasUsed;
 
-    console.log(`
-      Deployment Costs: ${gas1.toString()}
-      Registration Costs: ${gas2.toString()}
-      Proof/Update Costs: ${gas3.toString()}
-      Total Costs: ${gas1.add(gas2).add(gas3).toString()}
-    `);
+    logCosts(gas1, gas2, gas3);
 }
 
 module.exports = benchmark;

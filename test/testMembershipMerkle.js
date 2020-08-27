@@ -1,7 +1,7 @@
 const { assert } = require("chai");
 const { utils: { solidityPack, solidityKeccak256 }} = require('ethers');
 const { keccakFromString, bufferToHex } = require('ethereumjs-util');
-const MerkleTree = require('../helpers/MerkleTree');
+const MerkleTree = require('../utils/MerkleTree');
 
 describe("MembershipMerkle", function() {
   let merkleTree;
