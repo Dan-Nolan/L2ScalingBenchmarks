@@ -21,12 +21,12 @@ async function benchmark({ ethers }, numAccounts) {
     const receipt3 = await tx3.wait();
     const gas3 = receipt3.cumulativeGasUsed;
 
-    console.log({
-      gas1: gas1.toString(),
-      gas2: gas2.toString(),
-      gas3: gas3.toString(),
-      totalGas: gas1.add(gas2).add(gas3).toString()
-    });
+    console.log(`
+      Deployment Costs: ${gas1.toString()}
+      Registration Costs: ${gas2.toString()}
+      Proof/Update Costs: ${gas3.toString()}
+      Total Costs: ${gas1.add(gas2).add(gas3).toString()}
+    `);
 }
 
 module.exports = benchmark;

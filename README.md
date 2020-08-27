@@ -1,4 +1,4 @@
-# Installation
+## Installation
 
 This project is built using [Buidler](https://buidler.dev/) 👷‍♀️👷‍♂️
 
