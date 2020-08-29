@@ -5,16 +5,16 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/cryptography/MerkleProof.sol";
 
 contract MembershipMerkle is Ownable {
-    mapping(bytes32 => bool) committments;
+    mapping(bytes32 => bool) commitments;
 
     string public message;
 
     function commit(bytes32 _hash) public onlyOwner {
-        committments[_hash] = true;
+        commitments[_hash] = true;
     }
 
     function isMember(bytes32[] memory proof, bytes32 root) public view returns(bool) {
-        require(committments[root]);
+        require(commitments[root]);
         bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
         return MerkleProof.verify(proof, root, leaf);
     }
