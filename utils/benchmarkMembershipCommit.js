@@ -21,6 +21,12 @@ async function benchmark({ ethers }, numAccounts) {
     const tx2 = await contract.commit(hash);
     const receipt2 = await tx2.wait();
 
+    // set the message before calculating the average
+    // initial sstore costs more and can be a skewed data point 
+    const typesAfter = new Array(members.length - 1).fill("address");
+    const bytesAfter = solidityPack(typesAfter, members.slice(1));
+    await contract.changeMessage("first", "0x", bytesAfter);
+
     let gas3Cumulative = ethers.constants.Zero;
     const numTransactions = Math.min(numAccounts, addresses.length);
     for(let i = 0; i < numTransactions; i++) {

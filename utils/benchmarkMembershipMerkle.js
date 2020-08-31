@@ -20,11 +20,16 @@ async function benchmark({ ethers }, numAccounts) {
     const tx2 = await contract.commit(merkleTree.getHexRoot());
     const receipt2 = await tx2.wait();
 
+    // set the message before calculating the average
+    // initial sstore costs more and can be a skewed data point
+    const proof = merkleTree.getHexProof(addresses[0]);
+    await contract.changeMessage("first", proof, merkleTree.getHexRoot())
+
     let gas3Cumulative = ethers.constants.Zero;
     const numTransactions = Math.min(numAccounts, addresses.length);
     for(let i = 0; i < numTransactions; i++) {
         const proof = merkleTree.getHexProof(addresses[i]);
-        const changeTx = await contract.connect(ethers.provider.getSigner(i)).changeMessage("Hello World", proof, merkleTree.getHexRoot());
+        const changeTx = await contract.connect(ethers.provider.getSigner(i)).changeMessage(`merkle-${i}`, proof, merkleTree.getHexRoot());
         const changeReceipt = await changeTx.wait();
         gas3Cumulative = gas3Cumulative.add(changeReceipt.cumulativeGasUsed);
     }
